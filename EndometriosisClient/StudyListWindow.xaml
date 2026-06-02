@@ -1,0 +1,61 @@
+﻿<Window x:Class="EndometriosisClient.StudyListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Список исследований"
+        Height="500" Width="1000"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   Text="Сохранённые исследования"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"/>
+
+        <DataGrid x:Name="StudiesDataGrid"
+                  Grid.Row="2"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  SelectionUnit="FullRow">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID исследования" Binding="{Binding StudyId}" Width="100"/>
+                <DataGridTextColumn Header="Пациент" Binding="{Binding PatientName}" Width="180"/>
+                <DataGridTextColumn Header="Возраст" Binding="{Binding Age}" Width="80"/>
+                <DataGridTextColumn Header="Файл МРТ" Binding="{Binding FileName}" Width="200"/>
+                <DataGridTextColumn Header="Дата загрузки" Binding="{Binding UploadDate}" Width="150"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="120"/>
+                <DataGridTextColumn Header="Заключение" Binding="{Binding Conclusion}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="4"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            <Button Content="Обновить"
+                    Width="150"
+                    Height="40"
+                    Margin="0,0,10,0"
+                    Click="RefreshButton_Click"/>
+
+            <Button Content="Открыть результат"
+                    Width="170"
+                    Height="40"
+                    Margin="0,0,10,0"
+                    Click="OpenResultButton_Click"/>
+
+            <Button Content="Закрыть"
+                    Width="150"
+                    Height="40"
+                    Click="CloseButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
