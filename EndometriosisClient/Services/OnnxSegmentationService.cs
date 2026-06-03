@@ -29,8 +29,6 @@ namespace EndometriosisClient.Services
         private const float Threshold = 0.5f;
         private const int MinVoxels = 20;
 
-        // Если ты экспортировала модель через ModelWithSigmoid, оставь true.
-        // Если экспортировала обычную модель без sigmoid, поставь false.
         private const bool OnnxOutputAlreadyHasSigmoid = true;
 
         public OnnxSegmentationService()
@@ -60,8 +58,7 @@ namespace EndometriosisClient.Services
                 GraphOptimizationLevel = GraphOptimizationLevel.ORT_ENABLE_ALL
             };
 
-            // Сейчас используем CPU.
-            // Позже здесь можно будет заменить выполнение на CUDA или DirectML.
+            // сейчас используется CPU.
             options.AppendExecutionProvider_CPU();
 
             return options;
@@ -131,11 +128,6 @@ namespace EndometriosisClient.Services
 
             var volumeDhw = new float[depth * height * width];
 
-            // В Python было:
-            // volume_hwd = nii.get_fdata()
-            // volume_dhw = np.transpose(volume_hwd, (2, 0, 1))
-            //
-            // Здесь сразу формируем D,H,W.
             for (int z = 0; z < depth; z++)
             {
                 for (int y = 0; y < height; y++)

@@ -103,7 +103,6 @@ namespace EndometriosisClient
                     segmentationResponse.ResultImagePath,
                     segmentationResponse.Status,
                     segmentationResponse.Conclusion,
-                    false,
                     segmentationResponse.PreviewImagePath);
 
                 StatusTextBlock.Text =

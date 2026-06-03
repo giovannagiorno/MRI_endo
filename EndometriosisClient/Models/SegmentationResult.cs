@@ -13,7 +13,7 @@ namespace EndometriosisClient.Models
         // Путь к исходному МРТ-превью
         public string PreviewImagePath { get; set; } = string.Empty;
 
-        // Путь к файлу результата (например, PNG с наложенной маской)
+        // Путь к файлу результата
         public string ResultPath { get; set; }
 
         // Статус обработки: demo, processed, error
@@ -25,10 +25,6 @@ namespace EndometriosisClient.Models
         // Дата создания результата
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        // Признак демонстрационного результата-заглушки
-        public bool IsStub { get; set; } = true;
-
-        // Навигационное свойство
         public MRIStudy MRIStudy { get; set; }
     }
 }

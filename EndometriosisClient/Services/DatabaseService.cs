@@ -70,7 +70,6 @@ namespace EndometriosisClient.Services
             string resultPath,
             string status,
             string conclusion,
-            bool isStub = true,
             string previewImagePath = "")
         {
             using var db = new AppDbContext();
@@ -81,8 +80,7 @@ namespace EndometriosisClient.Services
                 PreviewImagePath = previewImagePath,
                 ResultPath = resultPath,
                 Status = status,
-                Conclusion = conclusion,
-                IsStub = isStub
+                Conclusion = conclusion
             };
 
             db.SegmentationResults.Add(result);

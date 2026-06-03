@@ -6,44 +6,65 @@ namespace EndometriosisClient
 {
     public partial class App : Application
     {
+        private bool _isShuttingDown = false;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             DbInitializer.Initialize();
 
-            // Важно: пока открыто окно авторизации, нельзя завершать приложение
-            // после закрытия последнего окна.
+            // Приложение закрываем только вручную,
+            // чтобы после закрытия кабинета можно было вернуться к окну входа.
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
+            ShowLoginWindow();
+        }
+
+        private void ShowLoginWindow()
+        {
             var loginWindow = new LoginWindow();
+
             bool? loginResult = loginWindow.ShowDialog();
 
             if (loginResult == true && loginWindow.LoggedUser != null)
             {
-                Window userWindow;
-
-                if (loginWindow.LoggedUser.Role == UserRoles.Admin)
-                {
-                    userWindow = new AdminWindow(loginWindow.LoggedUser);
-                }
-                else
-                {
-                    userWindow = new MainWindow(loginWindow.LoggedUser);
-                }
-
-                // Назначаем главное окно приложения
-                MainWindow = userWindow;
-
-                // Теперь приложение должно закрываться только после закрытия личного кабинета
-                ShutdownMode = ShutdownMode.OnMainWindowClose;
-
-                userWindow.Show();
+                OpenUserWindow(loginWindow.LoggedUser);
             }
             else
             {
+                _isShuttingDown = true;
                 Shutdown();
             }
+        }
+
+        private void OpenUserWindow(AppUser user)
+        {
+            Window userWindow;
+
+            if (user.Role == UserRoles.Admin)
+            {
+                userWindow = new AdminWindow(user);
+            }
+            else
+            {
+                userWindow = new MainWindow(user);
+            }
+
+            MainWindow = userWindow;
+
+            userWindow.Closed += UserWindow_Closed;
+
+            userWindow.Show();
+        }
+
+        private void UserWindow_Closed(object sender, System.EventArgs e)
+        {
+            if (_isShuttingDown)
+                return;
+
+            // После закрытия кабинета пользователя снова показываем окно входа.
+            ShowLoginWindow();
         }
     }
 }

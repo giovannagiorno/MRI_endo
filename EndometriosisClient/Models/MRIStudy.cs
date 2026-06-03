@@ -13,16 +13,16 @@ namespace EndometriosisClient.Models
         // Путь к файлу МРТ (.nii или .nii.gz)
         public string FilePath { get; set; }
 
-        // Имя файла (для отображения)
+        // Имя файла
         public string FileName { get; set; }
 
         // Дата загрузки исследования
         public DateTime UploadDate { get; set; } = DateTime.Now;
 
-        // Тип файла (например: NIfTI)
+        // Тип файла
         public string FileType { get; set; }
 
-        // Навигационное свойство (связь с пациентом)
+        // связь с пациентом
         public Patient Patient { get; set; }
     }
 }
